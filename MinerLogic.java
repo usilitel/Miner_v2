@@ -122,16 +122,21 @@ import java.util.Random;
             countOpenedCells++;
         }
 
-        // идем вокруг текущей €чейки и рекурсивно открываем соседние €чейки
-        if(cell.getCntMinesNear()==0){
-            for(int dx=-1;dx<2;dx++)
-                for(int dy=-1;dy<2;dy++) {
-                    // 1) проверка на существование €чейки.  2) уже открытые €чейки не трогаем.
-                    if(((x+dx)>=0 && (x+dx)<=FIELD_SIZE_X-1 && (y+dy)>=0 && (y+dy)<=FIELD_SIZE_Y-1) && (arrayMinerCells[x+dx][y+dy].getCellState()!=MinerCell.CELL_STATE_OPEN)){
-                        OpenCell(x+dx, y+dy);
-                    }
-                }
+        // открываем соседние €чейки
+        if(cell.getCntMinesNear()==0) {
+            OpenCellAround(x, y);
         }
+    }
+
+    // идем вокруг текущей €чейки и рекурсивно открываем соседние €чейки
+    public void OpenCellAround(int x, int y){
+        for(int dx=-1;dx<2;dx++)
+            for(int dy=-1;dy<2;dy++) {
+                // 1) проверка на существование €чейки.  2) уже открытые €чейки не трогаем.
+                if(((x+dx)>=0 && (x+dx)<=FIELD_SIZE_X-1 && (y+dy)>=0 && (y+dy)<=FIELD_SIZE_Y-1) && (arrayMinerCells[x+dx][y+dy].getCellState()!=MinerCell.CELL_STATE_OPEN)){
+                    OpenCell(x+dx, y+dy);
+                }
+            }
     }
 
     // проверка на успешное завершение игры
