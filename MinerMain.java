@@ -6,8 +6,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Random;
 
-//import ru.lesson.lessons.miner.v6.MinerField;
-//import ru.lesson.lessons.miner.v6.MinerLogic;
 
 
 // Форма для игры "Сапер"
@@ -16,7 +14,7 @@ import java.util.Random;
     final String TITLE_OF_PROGRAM = "Miner";
     final int START_LOCATION = 200;
     final int FIELD_DX = 6; // добавка в пикселях по X (чтобы все умещалось в форму)
-    final int FIELD_DY = 29; //29+0; // + 16; // добавка в пикселях по Y
+    final int FIELD_DY = 29; // + 16; // добавка в пикселях по Y
 
     MinerLogic minerLogic;
     MinerField minerField;
@@ -27,7 +25,6 @@ import java.util.Random;
 
 
     public MinerMain(){
-        //minerField = new MinerField();
         minerLogic = new MinerLogic();
         minerField = minerLogic.minerField;
 
@@ -38,7 +35,6 @@ import java.util.Random;
 
         this.add(BorderLayout.CENTER, minerField);
         this.setVisible(true);
-        //minerLogic.MinerFieldPaint();
 
     }
 

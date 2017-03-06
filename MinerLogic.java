@@ -196,7 +196,6 @@ import java.util.Random;
         // перерисовываем всё поле
         public void paint(Graphics g) {
             super.paint(g);
-            //System.out.println("MinerFieldPaintable.paint");
             for (int x = 0; x < FIELD_SIZE_X; x++){ // перерисовываем все ячейки
                 for (int y = 0; y < FIELD_SIZE_Y; y++) {
                     drawCell(g, x, y);
