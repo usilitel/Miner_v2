@@ -117,15 +117,16 @@ import java.util.Random;
     // открываем €чейку и соседние (если вокруг нет мин)
     public void OpenCell(int x, int y){
         MinerCell cell = arrayMinerCells[x][y];
-        if(cell.getCellState()!=MinerCell.CELL_STATE_OPEN){
+        if(cell.getCellState()==MinerCell.CELL_STATE_CLOSED){ // действуем только если €чейка закрыта
             cell.setCellState(MinerCell.CELL_STATE_OPEN);
             countOpenedCells++;
+
+            // открываем соседние €чейки
+            if(cell.getCntMinesNear()==0) {
+                OpenCellAround(x, y);
+            }
         }
 
-        // открываем соседние €чейки
-        if(cell.getCntMinesNear()==0) {
-            OpenCellAround(x, y);
-        }
     }
 
     // идем вокруг текущей €чейки и рекурсивно открываем соседние €чейки
