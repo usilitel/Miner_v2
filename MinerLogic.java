@@ -6,33 +6,33 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Random;
 
-// логика для игры "Сапер"
+// Р»РѕРіРёРєР° РґР»СЏ РёРіСЂС‹ "РЎР°РїРµСЂ"
  public class MinerLogic {
 
-    final int BLOCK_SIZE = 30; // размер блока в пикселях
-    final String SIGN_OF_FLAG = "f"; // символ флага
-    final String SIGN_OF_BOMB = "B"; // символ бомбы
+    final int BLOCK_SIZE = 30; // СЂР°Р·РјРµСЂ Р±Р»РѕРєР° РІ РїРёРєСЃРµР»СЏС…
+    final String SIGN_OF_FLAG = "f"; // СЃРёРјРІРѕР» С„Р»Р°РіР°
+    final String SIGN_OF_BOMB = "B"; // СЃРёРјРІРѕР» Р±РѕРјР±С‹
 
-    final int FIELD_SIZE_X = 7; // размер поля (количество ячеек по X)
-    final int FIELD_SIZE_Y = 7; // размер поля (количество ячеек по Y)
-    final int COUNT_OF_MINES = 4; // количество мин на поле
-    final int[] COLOURS_OF_NUMBERS = {0x0000FF, 0x008000, 0xFF0000, 0x800000, 0x0, 0x0, 0x0, 0x0}; // цвета цифр
+    final int FIELD_SIZE_X = 7; // СЂР°Р·РјРµСЂ РїРѕР»СЏ (РєРѕР»РёС‡РµСЃС‚РІРѕ СЏС‡РµРµРє РїРѕ X)
+    final int FIELD_SIZE_Y = 7; // СЂР°Р·РјРµСЂ РїРѕР»СЏ (РєРѕР»РёС‡РµСЃС‚РІРѕ СЏС‡РµРµРє РїРѕ Y)
+    final int COUNT_OF_MINES = 4; // РєРѕР»РёС‡РµСЃС‚РІРѕ РјРёРЅ РЅР° РїРѕР»Рµ
+    final int[] COLOURS_OF_NUMBERS = {0x0000FF, 0x008000, 0xFF0000, 0x800000, 0x0, 0x0, 0x0, 0x0}; // С†РІРµС‚Р° С†РёС„СЂ
 
 
 
 
     MinerFieldPaintable minerField;
-    MinerCell[][] arrayMinerCells; // массив ячеек
+    MinerCell[][] arrayMinerCells; // РјР°СЃСЃРёРІ СЏС‡РµРµРє
 
-    // константы, описывающие возможное состояние игры (поле gameState)
-    final static int GAME_STATE_STOP = 0; // игра еще не началась
-    final static int GAME_STATE_STARTED = 1; // игра продолжается
-    final static int GAME_STATE_FINISHED_SUCCESS = 2; // игра завершилась с успехом
-    final static int GAME_STATE_FINISHED_FAIL = 3; // игра завершилась с проигрышем
+    // РєРѕРЅСЃС‚Р°РЅС‚С‹, РѕРїРёСЃС‹РІР°СЋС‰РёРµ РІРѕР·РјРѕР¶РЅРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ РёРіСЂС‹ (РїРѕР»Рµ gameState)
+    final static int GAME_STATE_STOP = 0; // РёРіСЂР° РµС‰Рµ РЅРµ РЅР°С‡Р°Р»Р°СЃСЊ
+    final static int GAME_STATE_STARTED = 1; // РёРіСЂР° РїСЂРѕРґРѕР»Р¶Р°РµС‚СЃСЏ
+    final static int GAME_STATE_FINISHED_SUCCESS = 2; // РёРіСЂР° Р·Р°РІРµСЂС€РёР»Р°СЃСЊ СЃ СѓСЃРїРµС…РѕРј
+    final static int GAME_STATE_FINISHED_FAIL = 3; // РёРіСЂР° Р·Р°РІРµСЂС€РёР»Р°СЃСЊ СЃ РїСЂРѕРёРіСЂС‹С€РµРј
 
-    // константы, описывающие что нужно сделать с ячейкой (ProcessCell(...,int action))
-    final static int ACTION_OPEN = 0; // открыть ячейку
-    final static int ACTION_MARK_UNMARK = 1; // пометить ячейку/снять пометку
+    // РєРѕРЅСЃС‚Р°РЅС‚С‹, РѕРїРёСЃС‹РІР°СЋС‰РёРµ С‡С‚Рѕ РЅСѓР¶РЅРѕ СЃРґРµР»Р°С‚СЊ СЃ СЏС‡РµР№РєРѕР№ (ProcessCell(...,int action))
+    final static int ACTION_OPEN = 0; // РѕС‚РєСЂС‹С‚СЊ СЏС‡РµР№РєСѓ
+    final static int ACTION_MARK_UNMARK = 1; // РїРѕРјРµС‚РёС‚СЊ СЏС‡РµР№РєСѓ/СЃРЅСЏС‚СЊ РїРѕРјРµС‚РєСѓ
     final static int MOUSE_BUTTON_LEFT = 1;
     final static int MOUSE_BUTTON_RIGHT = 3;
 
@@ -40,8 +40,8 @@ import java.util.Random;
 
     Random random = new Random();
     int countOpenedCells;
-    int gameState; // текущее состояние игры (GAME_STATE_STOP, GAME_STATE_STARTED, GAME_STATE_FINISHED_SUCCESS, GAME_STATE_FINISHED_FAIL)
-    int bangX, bangY; // координаты взрыва
+    int gameState; // С‚РµРєСѓС‰РµРµ СЃРѕСЃС‚РѕСЏРЅРёРµ РёРіСЂС‹ (GAME_STATE_STOP, GAME_STATE_STARTED, GAME_STATE_FINISHED_SUCCESS, GAME_STATE_FINISHED_FAIL)
+    int bangX, bangY; // РєРѕРѕСЂРґРёРЅР°С‚С‹ РІР·СЂС‹РІР°
 
     public MinerLogic(){
         minerField = new MinerFieldPaintable();
@@ -56,15 +56,15 @@ import java.util.Random;
 
         this.GenerateField();
 
-        // обрабатываем клик мышью
+        // РѕР±СЂР°Р±Р°С‚С‹РІР°РµРј РєР»РёРє РјС‹С€СЊСЋ
         minerField.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                int x = e.getX() / BLOCK_SIZE; // вычисляем координаты ячейки
+                int x = e.getX() / BLOCK_SIZE; // РІС‹С‡РёСЃР»СЏРµРј РєРѕРѕСЂРґРёРЅР°С‚С‹ СЏС‡РµР№РєРё
                 int y = e.getY() / BLOCK_SIZE;
 
-                // запускаем обработку
+                // Р·Р°РїСѓСЃРєР°РµРј РѕР±СЂР°Р±РѕС‚РєСѓ
                 switch (e.getButton()) {
                     case MOUSE_BUTTON_LEFT:
                         ProcessCell(x, y, MinerLogic.ACTION_OPEN);
@@ -80,21 +80,21 @@ import java.util.Random;
 
 
 
-    // обрабатываем действие пользователя
+    // РѕР±СЂР°Р±Р°С‚С‹РІР°РµРј РґРµР№СЃС‚РІРёРµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
     public void ProcessCell(int x, int y, int action) {
         MinerCell cell = arrayMinerCells[x][y];
         if(gameState==GAME_STATE_STARTED){
             switch(action) {
                 case ACTION_OPEN:
-                    if(cell.getCellState()==MinerCell.CELL_STATE_CLOSED){ // если ячейка не помечена - то открываем ее
+                    if(cell.getCellState()==MinerCell.CELL_STATE_CLOSED){ // РµСЃР»Рё СЏС‡РµР№РєР° РЅРµ РїРѕРјРµС‡РµРЅР° - С‚Рѕ РѕС‚РєСЂС‹РІР°РµРј РµРµ
                         OpenCell(x, y);
-                        if (cell.getIsMine()){ // напоролись на мину - заканчиваем игру
+                        if (cell.getIsMine()){ // РЅР°РїРѕСЂРѕР»РёСЃСЊ РЅР° РјРёРЅСѓ - Р·Р°РєР°РЅС‡РёРІР°РµРј РёРіСЂСѓ
                             gameState=GAME_STATE_FINISHED_FAIL;
                             System.out.println("Game over.");
                             bangX=x;
                             bangY=y;
                         }
-                        else{ // открыли свободную ячейку - проверяем закончилась ли игра
+                        else{ // РѕС‚РєСЂС‹Р»Рё СЃРІРѕР±РѕРґРЅСѓСЋ СЏС‡РµР№РєСѓ - РїСЂРѕРІРµСЂСЏРµРј Р·Р°РєРѕРЅС‡РёР»Р°СЃСЊ Р»Рё РёРіСЂР°
                             CheckGameOver();
                         }
                     }
@@ -114,14 +114,14 @@ import java.util.Random;
         }
     }
 
-    // открываем ячейку и соседние (если вокруг нет мин)
+    // РѕС‚РєСЂС‹РІР°РµРј СЏС‡РµР№РєСѓ Рё СЃРѕСЃРµРґРЅРёРµ (РµСЃР»Рё РІРѕРєСЂСѓРі РЅРµС‚ РјРёРЅ)
     public void OpenCell(int x, int y){
         MinerCell cell = arrayMinerCells[x][y];
-        if(cell.getCellState()==MinerCell.CELL_STATE_CLOSED){ // действуем только если ячейка закрыта
+        if(cell.getCellState()==MinerCell.CELL_STATE_CLOSED){ // РґРµР№СЃС‚РІСѓРµРј С‚РѕР»СЊРєРѕ РµСЃР»Рё СЏС‡РµР№РєР° Р·Р°РєСЂС‹С‚Р°
             cell.setCellState(MinerCell.CELL_STATE_OPEN);
             countOpenedCells++;
 
-            // открываем соседние ячейки
+            // РѕС‚РєСЂС‹РІР°РµРј СЃРѕСЃРµРґРЅРёРµ СЏС‡РµР№РєРё
             if(cell.getCntMinesNear()==0) {
                 OpenCellAround(x, y);
             }
@@ -129,18 +129,18 @@ import java.util.Random;
 
     }
 
-    // идем вокруг текущей ячейки и рекурсивно открываем соседние ячейки
+    // РёРґРµРј РІРѕРєСЂСѓРі С‚РµРєСѓС‰РµР№ СЏС‡РµР№РєРё Рё СЂРµРєСѓСЂСЃРёРІРЅРѕ РѕС‚РєСЂС‹РІР°РµРј СЃРѕСЃРµРґРЅРёРµ СЏС‡РµР№РєРё
     public void OpenCellAround(int x, int y){
         for(int dx=-1;dx<2;dx++)
             for(int dy=-1;dy<2;dy++) {
-                // 1) проверка на существование ячейки.  2) уже открытые ячейки не трогаем.
+                // 1) РїСЂРѕРІРµСЂРєР° РЅР° СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёРµ СЏС‡РµР№РєРё.  2) СѓР¶Рµ РѕС‚РєСЂС‹С‚С‹Рµ СЏС‡РµР№РєРё РЅРµ С‚СЂРѕРіР°РµРј.
                 if(((x+dx)>=0 && (x+dx)<=FIELD_SIZE_X-1 && (y+dy)>=0 && (y+dy)<=FIELD_SIZE_Y-1) && (arrayMinerCells[x+dx][y+dy].getCellState()!=MinerCell.CELL_STATE_OPEN)){
                     OpenCell(x+dx, y+dy);
                 }
             }
     }
 
-    // проверка на успешное завершение игры
+    // РїСЂРѕРІРµСЂРєР° РЅР° СѓСЃРїРµС€РЅРѕРµ Р·Р°РІРµСЂС€РµРЅРёРµ РёРіСЂС‹
     public void CheckGameOver(){
         if(countOpenedCells==(FIELD_SIZE_X * FIELD_SIZE_Y - COUNT_OF_MINES)){
             gameState=GAME_STATE_FINISHED_SUCCESS;
@@ -148,15 +148,15 @@ import java.util.Random;
         }
     }
 
-    // генерируем поле, расставляем мины, заполняем поле CntMinesNear
+    // РіРµРЅРµСЂРёСЂСѓРµРј РїРѕР»Рµ, СЂР°СЃСЃС‚Р°РІР»СЏРµРј РјРёРЅС‹, Р·Р°РїРѕР»РЅСЏРµРј РїРѕР»Рµ CntMinesNear
     public void GenerateField(){
-        // заполняем поле ячейками
+        // Р·Р°РїРѕР»РЅСЏРµРј РїРѕР»Рµ СЏС‡РµР№РєР°РјРё
         for(int x=0;x<FIELD_SIZE_X;x++)
             for(int y=0;y<FIELD_SIZE_Y;y++) {
                 arrayMinerCells[x][y] = new MinerCell();
             }
 
-        // расставляем мины
+        // СЂР°СЃСЃС‚Р°РІР»СЏРµРј РјРёРЅС‹
         int cntMines=0;
         while(cntMines<COUNT_OF_MINES){
             int x=random.nextInt(FIELD_SIZE_X);
@@ -167,12 +167,12 @@ import java.util.Random;
             }
         }
 
-        // считаем количество мин вокруг ячейки
+        // СЃС‡РёС‚Р°РµРј РєРѕР»РёС‡РµСЃС‚РІРѕ РјРёРЅ РІРѕРєСЂСѓРі СЏС‡РµР№РєРё
         for(int x=0;x<FIELD_SIZE_X;x++)
             for(int y=0;y<FIELD_SIZE_Y;y++) {
                 for(int dx=-1;dx<2;dx++) {
                     for (int dy = -1; dy < 2; dy++) {
-                        if ((x + dx) >= 0 && (x + dx) <= FIELD_SIZE_X - 1 && (y + dy) >= 0 && (y + dy) <= FIELD_SIZE_Y - 1) { // проверка на существование ячейки
+                        if ((x + dx) >= 0 && (x + dx) <= FIELD_SIZE_X - 1 && (y + dy) >= 0 && (y + dy) <= FIELD_SIZE_Y - 1) { // РїСЂРѕРІРµСЂРєР° РЅР° СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёРµ СЏС‡РµР№РєРё
                             if (arrayMinerCells[x + dx][y + dy].getIsMine()) {
                                 arrayMinerCells[x][y].setCntMinesNear(arrayMinerCells[x][y].getCntMinesNear() + 1);
                             }
@@ -189,15 +189,15 @@ import java.util.Random;
 
 
 
-    // Расширение класса MinerField (игровое поле для игры "Сапер") для реализации логики отрисовки ячеек.
-    // Внутри класса MinerField эту логику не стал реализовывать, чтобы вся логика была внутри класса MinerLogic.
+    // Р Р°СЃС€РёСЂРµРЅРёРµ РєР»Р°СЃСЃР° MinerField (РёРіСЂРѕРІРѕРµ РїРѕР»Рµ РґР»СЏ РёРіСЂС‹ "РЎР°РїРµСЂ") РґР»СЏ СЂРµР°Р»РёР·Р°С†РёРё Р»РѕРіРёРєРё РѕС‚СЂРёСЃРѕРІРєРё СЏС‡РµРµРє.
+    // Р’РЅСѓС‚СЂРё РєР»Р°СЃСЃР° MinerField СЌС‚Сѓ Р»РѕРіРёРєСѓ РЅРµ СЃС‚Р°Р» СЂРµР°Р»РёР·РѕРІС‹РІР°С‚СЊ, С‡С‚РѕР±С‹ РІСЃСЏ Р»РѕРіРёРєР° Р±С‹Р»Р° РІРЅСѓС‚СЂРё РєР»Р°СЃСЃР° MinerLogic.
     class MinerFieldPaintable extends MinerField{
 
-        // перерисовываем всё поле
+        // РїРµСЂРµСЂРёСЃРѕРІС‹РІР°РµРј РІСЃС‘ РїРѕР»Рµ
         public void paint(Graphics g) {
             super.paint(g);
             //System.out.println("MinerFieldPaintable.paint");
-            for (int x = 0; x < FIELD_SIZE_X; x++){ // перерисовываем все ячейки
+            for (int x = 0; x < FIELD_SIZE_X; x++){ // РїРµСЂРµСЂРёСЃРѕРІС‹РІР°РµРј РІСЃРµ СЏС‡РµР№РєРё
                 for (int y = 0; y < FIELD_SIZE_Y; y++) {
                     drawCell(g, x, y);
                 }
@@ -205,7 +205,7 @@ import java.util.Random;
         }
 
 
-        // рисуем отдельную ячейку
+        // СЂРёСЃСѓРµРј РѕС‚РґРµР»СЊРЅСѓСЋ СЏС‡РµР№РєСѓ
         public void drawCell(Graphics g, int x, int y){
 
             MinerCell cell = arrayMinerCells[x][y];
@@ -215,13 +215,13 @@ import java.util.Random;
 
             minerField.drawEmptyBlock(g, x, y);
 
-            if ((gameState==GAME_STATE_FINISHED_SUCCESS || gameState==GAME_STATE_FINISHED_FAIL) && (cell.getIsMine())) { // если игра закончена И мина - открываем ее
-                if ((x==bangX && y==bangY) && (gameState==GAME_STATE_FINISHED_FAIL)) {color = Color.red;}  // цвет бомбы
+            if ((gameState==GAME_STATE_FINISHED_SUCCESS || gameState==GAME_STATE_FINISHED_FAIL) && (cell.getIsMine())) { // РµСЃР»Рё РёРіСЂР° Р·Р°РєРѕРЅС‡РµРЅР° Р РјРёРЅР° - РѕС‚РєСЂС‹РІР°РµРј РµРµ
+                if ((x==bangX && y==bangY) && (gameState==GAME_STATE_FINISHED_FAIL)) {color = Color.red;}  // С†РІРµС‚ Р±РѕРјР±С‹
                 else {color = Color.black;}
                 minerField.drawBomb(g, x, y, color);
             }
             else{
-                switch(cell.getCellState()) { // иначе смотрим на состояние ячейки
+                switch(cell.getCellState()) { // РёРЅР°С‡Рµ СЃРјРѕС‚СЂРёРј РЅР° СЃРѕСЃС‚РѕСЏРЅРёРµ СЏС‡РµР№РєРё
                     case MinerCell.CELL_STATE_CLOSED:
                         minerField.drawClosedBlock(g, x, y);
                         break;
