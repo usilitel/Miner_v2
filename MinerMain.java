@@ -10,13 +10,13 @@ import java.util.Random;
 //import ru.lesson.lessons.miner.v6.MinerLogic;
 
 
-// Форма для игры "Сапер"
+// Р¤РѕСЂРјР° РґР»СЏ РёРіСЂС‹ "РЎР°РїРµСЂ"
  public class MinerMain extends JFrame {
 
     final String TITLE_OF_PROGRAM = "Miner";
     final int START_LOCATION = 200;
-    final int FIELD_DX = 6; // добавка в пикселях по X (чтобы все умещалось в форму)
-    final int FIELD_DY = 29; //29+0; // + 16; // добавка в пикселях по Y
+    final int FIELD_DX = 6; // РґРѕР±Р°РІРєР° РІ РїРёРєСЃРµР»СЏС… РїРѕ X (С‡С‚РѕР±С‹ РІСЃРµ СѓРјРµС‰Р°Р»РѕСЃСЊ РІ С„РѕСЂРјСѓ)
+    final int FIELD_DY = 29; //29+0; // + 16; // РґРѕР±Р°РІРєР° РІ РїРёРєСЃРµР»СЏС… РїРѕ Y
 
     MinerLogic minerLogic;
     MinerField minerField;

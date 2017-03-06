@@ -2,17 +2,17 @@ package ru.lesson.lessons.miner.v7;
 
 
 
-// ячейка для игры "Сапер"
+// СЏС‡РµР№РєР° РґР»СЏ РёРіСЂС‹ "РЎР°РїРµСЂ"
 public class MinerCell {
 
-    // константы, описывающие возможные состояния ячейки (поле cellState)
-    final static int CELL_STATE_CLOSED = 0; // ячейка закрыта
-    final static int CELL_STATE_OPEN = 1; // ячейка открыта
-    final static int CELL_STATE_MARKED_AS_MINE = 2; // ячейка помечена как мина
+    // РєРѕРЅСЃС‚Р°РЅС‚С‹, РѕРїРёСЃС‹РІР°СЋС‰РёРµ РІРѕР·РјРѕР¶РЅС‹Рµ СЃРѕСЃС‚РѕСЏРЅРёСЏ СЏС‡РµР№РєРё (РїРѕР»Рµ cellState)
+    final static int CELL_STATE_CLOSED = 0; // СЏС‡РµР№РєР° Р·Р°РєСЂС‹С‚Р°
+    final static int CELL_STATE_OPEN = 1; // СЏС‡РµР№РєР° РѕС‚РєСЂС‹С‚Р°
+    final static int CELL_STATE_MARKED_AS_MINE = 2; // СЏС‡РµР№РєР° РїРѕРјРµС‡РµРЅР° РєР°Рє РјРёРЅР°
 
-    private boolean isMine = false; // true = мина
+    private boolean isMine = false; // true = РјРёРЅР°
     private int cellState = 0; // CELL_STATE_CLOSED, CELL_STATE_OPEN, CELL_STATE_MARKED_AS_MINE
-    private int cntMinesNear = 0; // количество мин вокруг
+    private int cntMinesNear = 0; // РєРѕР»РёС‡РµСЃС‚РІРѕ РјРёРЅ РІРѕРєСЂСѓРі
 
 
 

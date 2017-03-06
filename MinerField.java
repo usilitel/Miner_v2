@@ -6,13 +6,13 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Random;
 
-// игровое поле для игры "Сапер"
-// данный класс расширяется внутри класса MinerLogic для реализации логики отрисовки ячеек
+// РёРіСЂРѕРІРѕРµ РїРѕР»Рµ РґР»СЏ РёРіСЂС‹ "РЎР°РїРµСЂ"
+// РґР°РЅРЅС‹Р№ РєР»Р°СЃСЃ СЂР°СЃС€РёСЂСЏРµС‚СЃСЏ РІРЅСѓС‚СЂРё РєР»Р°СЃСЃР° MinerLogic РґР»СЏ СЂРµР°Р»РёР·Р°С†РёРё Р»РѕРіРёРєРё РѕС‚СЂРёСЃРѕРІРєРё СЏС‡РµРµРє
 public class MinerField  extends JPanel{
 
-    private int BLOCK_SIZE; // размер блока в пикселях
-    private String SIGN_OF_FLAG; // символ флага
-    private String SIGN_OF_BOMB; // символ бомбы
+    private int BLOCK_SIZE; // СЂР°Р·РјРµСЂ Р±Р»РѕРєР° РІ РїРёРєСЃРµР»СЏС…
+    private String SIGN_OF_FLAG; // СЃРёРјРІРѕР» С„Р»Р°РіР°
+    private String SIGN_OF_BOMB; // СЃРёРјРІРѕР» Р±РѕРјР±С‹
 
 
 
@@ -31,25 +31,25 @@ public class MinerField  extends JPanel{
 
 
     //------------------------
-    // методы для отрисовки разных типов ячеек
+    // РјРµС‚РѕРґС‹ РґР»СЏ РѕС‚СЂРёСЃРѕРІРєРё СЂР°Р·РЅС‹С… С‚РёРїРѕРІ СЏС‡РµРµРє
 
-    public void drawNumber(Graphics g, int x, int y, String string, Color color){ // рисуем цифру (количество мин вокруг)
+    public void drawNumber(Graphics g, int x, int y, String string, Color color){ // СЂРёСЃСѓРµРј С†РёС„СЂСѓ (РєРѕР»РёС‡РµСЃС‚РІРѕ РјРёРЅ РІРѕРєСЂСѓРі)
         g.setColor(color);
         g.setFont(new Font("", Font.BOLD, BLOCK_SIZE));
         g.drawString(string, x*BLOCK_SIZE + BLOCK_SIZE/4, (int)Math.floor(y*BLOCK_SIZE+BLOCK_SIZE*0.87));
     }
-    public void drawBomb(Graphics g, int x, int y, Color color){ // рисуем мину
+    public void drawBomb(Graphics g, int x, int y, Color color){ // СЂРёСЃСѓРµРј РјРёРЅСѓ
         this.drawNumber(g,x,y,SIGN_OF_BOMB,color);
     }
-    public void drawFlag(Graphics g, int x, int y){ // рисуем метку
+    public void drawFlag(Graphics g, int x, int y){ // СЂРёСЃСѓРµРј РјРµС‚РєСѓ
         drawClosedBlock(g,x,y);
         this.drawNumber(g,x,y,SIGN_OF_FLAG,Color.red);
     }
-    public void drawEmptyBlock(Graphics g, int x, int y){ // рисуем пустой открытый блок
+    public void drawEmptyBlock(Graphics g, int x, int y){ // СЂРёСЃСѓРµРј РїСѓСЃС‚РѕР№ РѕС‚РєСЂС‹С‚С‹Р№ Р±Р»РѕРє
         g.setColor(Color.lightGray);
         g.drawRect(x*BLOCK_SIZE, y*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
     }
-    public void drawClosedBlock(Graphics g, int x, int y){ // рисуем закрытый блок
+    public void drawClosedBlock(Graphics g, int x, int y){ // СЂРёСЃСѓРµРј Р·Р°РєСЂС‹С‚С‹Р№ Р±Р»РѕРє
         g.setColor(Color.lightGray);
         g.fill3DRect(x*BLOCK_SIZE, y*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, true);
     }
